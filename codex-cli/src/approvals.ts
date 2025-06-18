@@ -61,7 +61,14 @@ export type ApprovalPolicy =
    * where network access is disabled and writes are limited to a specific set
    * of paths.
    */
-  | "full-auto";
+  | "full-auto"
+
+  /**
+   * All commands are auto-approved WITHOUT any sandboxing or safety checks.
+   * This is EXTREMELY DANGEROUS and should only be used in trusted environments
+   * where the execution environment itself provides appropriate security.
+   */
+  | "dangerous-auto";
 
 /**
  * Tries to assess whether a command is safe to run, though may defer to the
@@ -119,6 +126,15 @@ export function canAutoApprove(
       // In practice, there seem to be syntactically valid shell commands that
       // shell-quote cannot parse, so we should not reject, but ask the user.
       switch (policy) {
+        case "dangerous-auto":
+          // In dangerous-auto, we run all commands without sandboxing or prompting.
+          // This is EXTREMELY DANGEROUS and should only be used in trusted environments.
+          return {
+            type: "auto-approve",
+            reason: "Dangerous auto mode",
+            group: "Running commands",
+            runInSandbox: false,
+          };
         case "full-auto":
           // In full-auto, we still run the command automatically, but must
           // restrict it to the sandbox.
@@ -156,6 +172,15 @@ export function canAutoApprove(
     }
   }
 
+  if (policy === "dangerous-auto") {
+    return {
+      type: "auto-approve",
+      reason: "Dangerous auto mode",
+      group: "Running commands",
+      runInSandbox: false,
+    };
+  }
+  
   return policy === "full-auto"
     ? {
         type: "auto-approve",
@@ -173,6 +198,15 @@ function canAutoApproveApplyPatch(
   policy: ApprovalPolicy,
 ): SafetyAssessment {
   switch (policy) {
+    case "dangerous-auto":
+      // In dangerous-auto mode, immediately auto-approve without any path checks
+      return {
+        type: "auto-approve",
+        reason: "Dangerous auto mode",
+        group: "Editing",
+        runInSandbox: false,
+        applyPatch: { patch: applyPatchArg },
+      };
     case "full-auto":
       // Continue to see if this can be auto-approved.
       break;
