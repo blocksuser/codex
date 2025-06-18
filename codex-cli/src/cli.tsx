@@ -566,7 +566,9 @@ if (cli.flags.quiet) {
 // 5. Default – suggest mode (prompt for everything).
 
 const approvalPolicy: ApprovalPolicy =
-  cli.flags.fullAuto || cli.flags.approvalMode === "full-auto"
+  cli.flags.dangerouslyAutoApproveEverything
+    ? AutoApprovalMode.DANGEROUS_AUTO
+    : cli.flags.fullAuto || cli.flags.approvalMode === "full-auto"
     ? AutoApprovalMode.FULL_AUTO
     : cli.flags.autoEdit || cli.flags.approvalMode === "auto-edit"
       ? AutoApprovalMode.AUTO_EDIT
