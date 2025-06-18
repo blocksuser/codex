@@ -77,9 +77,12 @@ export const OPENAI_PROJECT = process.env["OPENAI_PROJECT"] || "";
 
 // Can be set `true` when Codex is running in an environment that is marked as already
 // considered sufficiently locked-down so that we allow running without an explicit sandbox.
-export const CODEX_UNSAFE_ALLOW_NO_SANDBOX = Boolean(
-  process.env["CODEX_UNSAFE_ALLOW_NO_SANDBOX"] || "",
-);
+export const CODEX_UNSAFE_ALLOW_NO_SANDBOX = (() => {
+  const value = process.env["CODEX_UNSAFE_ALLOW_NO_SANDBOX"];
+  if (!value) return false;
+  const lower = value.toLowerCase();
+  return lower === "true" || lower === "1" || lower === "yes";
+})();
 
 export function setApiKey(apiKey: string): void {
   OPENAI_API_KEY = apiKey;
