@@ -22,10 +22,10 @@ use crate::openai_api_key::get_openai_api_key;
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum WireApi {
-    /// The experimental “Responses” API exposed by OpenAI at `/v1/responses`.
+    /// The experimental "Responses" API exposed by OpenAI at `/responses`.
     #[default]
     Responses,
-    /// Regular Chat Completions compatible with `/v1/chat/completions`.
+    /// Regular Chat Completions compatible with `/chat/completions`.
     Chat,
 }
 

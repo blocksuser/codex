@@ -62,7 +62,7 @@ pub enum ResponseItem {
         call_id: String,
     },
     // NOTE: The input schema for `function_call_output` objects that clients send to the
-    // OpenAI /v1/responses endpoint is NOT the same shape as the objects the server returns on the
+    // OpenAI /responses endpoint is NOT the same shape as the objects the server returns on the
     // SSE stream. When *sending* we must wrap the string output inside an object that includes a
     // required `success` boolean. The upstream TypeScript CLI does this implicitly. To ensure we
     // serialize exactly the expected shape we introduce a dedicated payload struct and flatten it
