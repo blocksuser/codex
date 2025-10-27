@@ -67,7 +67,7 @@ async fn retries_on_early_close() {
     }
 
     Mock::given(method("POST"))
-        .and(path("/v1/responses"))
+        .and(path("/responses"))
         .respond_with(SeqResponder {})
         .expect(2)
         .mount(&server)

@@ -561,7 +561,7 @@ def maybe_redeem_credits(
     try:
         redeem_payload = json.dumps({"id_token": id_token}).encode()
         req = urllib.request.Request(
-            url=f"{api_host}/v1/billing/redeem_credits",
+            url=f"{api_host}/billing/redeem_credits",
             data=redeem_payload,
             method="POST",
             headers={"Content-Type": "application/json"},

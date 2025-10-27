@@ -221,7 +221,7 @@ async function maybeRedeemCredits(
         ? "https://api.openai.com"
         : "https://api.openai.org";
 
-    const redeemRes = await fetch(`${apiHost}/v1/billing/redeem_credits`, {
+    const redeemRes = await fetch(`${apiHost}/billing/redeem_credits`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id_token: currentIdToken }),

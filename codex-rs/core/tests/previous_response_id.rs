@@ -71,7 +71,7 @@ async fn keeps_previous_response_id_between_tasks() {
         .set_body_raw(sse_completed("resp1"), "text/event-stream");
 
     Mock::given(method("POST"))
-        .and(path("/v1/responses"))
+        .and(path("/responses"))
         .and(NoPrevId)
         .respond_with(first)
         .expect(1)
@@ -84,7 +84,7 @@ async fn keeps_previous_response_id_between_tasks() {
         .set_body_raw(sse_completed("resp2"), "text/event-stream");
 
     Mock::given(method("POST"))
-        .and(path("/v1/responses"))
+        .and(path("/responses"))
         .and(HasPrevId)
         .respond_with(second)
         .expect(1)
